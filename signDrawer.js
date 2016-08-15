@@ -30,9 +30,34 @@ var pixels  = [
 ];
 
 var columnLength = 64
+
+String.prototype.replaceCharacterAtIndexWithCharacter = function(index, character) {
+    return this.substr(0, index) + character + this.substr(index + character.length);
+}
+
 const drawSign = function(lightsState) {
-	console.log('lightsState', lightsState);
-	console.log(signLights);
+	// emoji are utf-16, not utf-8; the length of a single composed character is 2 utf-8 character codes
+	var characterLength = '🔴'.length
+
+	var signWithoutNewlines = signLights.replace(/\n/g, '')
+	lightsState.forEach(function (value, i) {
+		if (value == 1) {
+			var xOrigins = []
+			pixels[i].forEach(function (pixel, j) {
+				// math (important things: emoji length, newlines)
+				var index = (pixel[0] + (pixel[0] + (pixel[1] * (columnLength - 1)) * characterLength)) + (characterLength * pixel[1])
+				signWithoutNewlines = signWithoutNewlines.replaceCharacterAtIndexWithCharacter(index , '⚫️')
+			})
+		}
+	});
+
+	var sign = ''
+	while (signWithoutNewlines.length > 0) {
+		sign += signWithoutNewlines.substring(0, columnLength * characterLength) + '\n'
+		signWithoutNewlines = signWithoutNewlines.substring(columnLength * characterLength)
+	}
+
+	console.log(sign);
 }
 
 exports.drawSign = drawSign;
