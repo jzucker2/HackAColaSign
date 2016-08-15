@@ -8,18 +8,23 @@ void setup() {
     }
 }
 
+#define log(x, y)
+
+// code above the man is ignored by the emulator
+// code below it is transpiled into js and run by the emulator
+
 // )'(
 // Scenes
 
 void lettersAllOn() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(letters[i], PATTERN_ON);
         delay(none);
     }
 }
 
 void lettersAllOff() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(letters[i], PATTERN_OFF);
         delay(none);
     }
