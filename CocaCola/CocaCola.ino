@@ -73,7 +73,7 @@ void backgroundOnOutsideIn() {
 
 void backgroundOffInsideOut() {
     log('backgroundOffInsideOut - START');
-    for (int i = (sizeof(background) / 2) - 1, j = sizeof(background); i >= 0; i--, j++) {
+    for (int i = (sizeof(background) / 2) - 1, j = i + 1; i >= 0; i--, j++) {
         log('backgroundOffInsideOut i: ', i);
         digitalWrite(background[i], PATTERN_OFF);
         delay(none);
