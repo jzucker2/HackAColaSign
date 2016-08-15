@@ -67,3 +67,5 @@ typedef enum {
     ish = 2000,
     extended = 4000
 } interval;
+
+#define var int
