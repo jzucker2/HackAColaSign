@@ -108,7 +108,7 @@ var random = function(min, max) {
 }
 
 var log = function(message, integer) {
-    console.log(message, integer)
+    console.log(`${message} ${typeof(integer) !== 'undefined' ? integer : ''}`);
 }
 
 /*
