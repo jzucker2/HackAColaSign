@@ -76,6 +76,20 @@ void backgroundOffInsideOut() {
     }
 }
 
+void allOff() {
+    for (int i = 0; i < sizeof(letters); i++) {
+        digitalWrite(background[i], PATTERN_OFF);
+        delay(none);
+    }
+}
+
+void allOn() {
+    for (int i = 0; i < sizeof(letters); i++) {
+        digitalWrite(background[i], PATTERN_ON);
+        delay(none);
+    }
+}
+
 // Patterns
 
 void classicBackground() {
@@ -103,7 +117,7 @@ void blinkLetters(int times) {
 // Arduino loop
 
 void loop() {
-    lettersAllOff();
+    allOff();
 
     lettersOnLeftToRight();
     classicBackground();
