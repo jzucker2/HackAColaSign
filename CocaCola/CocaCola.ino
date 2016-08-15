@@ -1,12 +1,15 @@
 #include "Constants.h"
 
 void setup() {
+    randomSeed(analogRead(0));
+
     for (int i = 0; i < sizeof(Lights); i++) {
         pinMode(Lights[i], PATTERN_INITIALIZE);
     }
 }
 
 // )'(
+// Scenes
 
 void lettersAllOn() {
     for (int i = 0; i < 10; i++) {
@@ -62,25 +65,21 @@ void backgroundOffInsideOut() {
     }
 }
 
-void loop() {
-    lettersAllOff();
+// Patterns
 
-    lettersOnLeftToRight();
-
+void classicBackground() {
     backgroundOnLeftToRight();
     delay(extended);
-
     backgroundOffRightToLeft();
-    delay(normal);
+}
 
+void outsideInOnInsideOutOffBackground() {
     backgroundOnOutsideIn();
     delay(extended);
-
     backgroundOffInsideOut();
-    delay(normal);
+}
 
-    int repeat = random(5, 10);
-    // turn the letters off and on a bit
+void blinkLetters(int times) {
     for (int x = 0; x < repeat; x++) {
         lettersAllOff();
         delay(blinky);
@@ -88,12 +87,23 @@ void loop() {
         lettersAllOn();
         delay(blinky);
     }
+}
 
-    // and then turn it all off and wait
-    for (int i = 0; i < 10; i++) {
-        digitalWrite(letters[i], PATTERN_OFF);
-        delay(none);
-    }
+// Arduino loop
+
+void loop() {
+    lettersAllOff();
+
+    lettersOnLeftToRight();
+    classicBackground();
+    delay(normal);
+
+    outsideInOnInsideOutOffBackground();
+    delay(normal);
+
+    blinkLetters(random(5, 10));
+
+    lettersAllOff();
 
     delay(ish);
 }
