@@ -84,15 +84,15 @@ void backgroundOffInsideOut() {
 }
 
 void allOff() {
-    for (int i = 0; i < sizeof(letters); i++) {
-        digitalWrite(background[i], PATTERN_OFF);
+    for (int i = 0; i < sizeof(Lights); i++) {
+        digitalWrite(Lights[i], PATTERN_OFF);
         delay(none);
     }
 }
 
 void allOn() {
-    for (int i = 0; i < sizeof(letters); i++) {
-        digitalWrite(background[i], PATTERN_ON);
+    for (int i = 0; i < sizeof(Lights); i++) {
+        digitalWrite(Lights[i], PATTERN_ON);
         delay(none);
     }
 }

@@ -97,6 +97,14 @@ The following section defines global methods needed
 
 */
 
+var signDrawer = require('./signDrawer.js');
+
+var lightsState = [ ];
+
+for (var idx in Lights) {
+    lightsState[idx] = PATTERN_OFF;
+}
+
 var delay = function(time) {
     var entryTime = Date.now();
     while (true) {
@@ -110,7 +118,9 @@ var digitalWrite = function(pin, highOrLow) {
     if (typeof(pin) === 'undefined') {
         throw new Error(`You have an undefined pin being set to: ${highOrLow}`)
     }
-     console.log(`digitalWrite pin:${pin} highOrLow:${highOrLow}`);
+     console.log(`digitalWrite light:${Lights.indexOf(pin)} pin:${pin} highOrLow:${highOrLow}`);
+     lightsState[Lights.indexOf(pin)] = highOrLow ? PATTERN_OFF : PATTERN_ON;
+     signDrawer.drawSign(lightsState);
 
 }
 
