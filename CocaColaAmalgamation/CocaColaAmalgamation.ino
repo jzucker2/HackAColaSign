@@ -1,92 +1,24 @@
-typedef enum {
-    HackH = 48,
-    HackA = 26,
-    HackC = 24,
-    HackK = 46,
-    MiddleA = 36,
-    ColaC = 38,
-    ColaO = 28,
-    ColaL = 40,
-    ColaA = 30,
-    RedZero = 44,
-    RedOne = 34,
-    RedTwo = 50,
-    RedThree = 42,
-    RedFour = 22,
-    RedFive = 32
- } PatternToPin;
-
-static int Lights[16] = {
-    HackH,
-    HackA,
-    HackC,
-    HackK,
-    MiddleA,
-    ColaC,
-    ColaO,
-    ColaL,
-    ColaA,
-    RedZero,
-    RedOne,
-    RedTwo,
-    RedThree,
-    RedFour,
-    RedFive
-};
-
-#define PATTERN_OFF HIGH
-#define PATTERN_ON LOW
-#define PATTERN_INITIALIZE OUTPUT
-
-typedef enum {
-    none = 0,
-    blinky = 1000,
-    minimal = 500,
-    normal = 800,
-    ish = 2000,
-    extended = 4000
-} interval;
+#include "Constants.h"
 
 void setup() {
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < sizeof(Lights); i++) {
         pinMode(Lights[i], PATTERN_INITIALIZE);
     }
 }
 
 void loop() {    
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < sizeof(Lights); i++) {
       digitalWrite(Lights[i], PATTERN_OFF);
     }
 
-    // turn letters on, one at a time
-    int letters[] = {
-        HackH,
-        HackA,
-        HackC,
-        HackK,
-        MiddleA,
-        ColaC,
-        ColaO,
-        ColaL,
-        ColaA,
-    };
-    
-    for (int i = 0; i < 10; i++) {
+    // turn letters on, one at a time    
+    for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(letters[i], PATTERN_ON);
         delay(normal);
     }
 
-    int background[] = {
-        RedZero,
-        RedOne,
-        RedTwo,
-        RedThree,
-        RedFour,
-        RedFive
-    };
-
     // turn the background on from left to right
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < sizeof(background); i++) {
         digitalWrite(background[i], PATTERN_ON);
         delay(minimal);
     }
@@ -94,15 +26,15 @@ void loop() {
     delay(extended);
 
     // turn the background off from right to left
-    for (int i = 6 - 1; i >= 0; i--) {
+    for (int i = sizeof(background) - 1; i >= 0; i--) {
         digitalWrite(background[i], PATTERN_OFF);
         delay(minimal);
     }
 
-        delay(normal);
+    delay(normal);
 
     // turn the background on from outside in
-    for (int i = 0, j = 5; i < 3; i++, j--) {
+    for (int i = 0, j = sizeof(background) - 1; i < (sizeof(background) / 2); i++, j--) {
         digitalWrite(background[i], PATTERN_ON);
         delay(none);
         digitalWrite(background[j], PATTERN_ON);
@@ -112,7 +44,7 @@ void loop() {
     delay(extended);
 
     // turn the background off from inside out
-    for (int i = 2, j = 3; i >= 0; i--, j++) {
+    for (int i = (sizeof(background) / 2) - 1, j = sizeof(background); i >= 0; i--, j++) {
         digitalWrite(background[i], PATTERN_OFF);
         delay(none);
         digitalWrite(background[j], PATTERN_OFF);
