@@ -68,5 +68,4 @@ typedef enum {
     extended = 4000
 } interval;
 
-#define log(x, y)
-
+#define log(x, ...)
