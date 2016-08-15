@@ -107,7 +107,7 @@ var digitalWrite = function(pin, highOrLow) {
         throw new Error(`You have an undefined pin being set to: ${highOrLow}`)
     }
      console.log(`digitalWrite light:${Lights.indexOf(pin)} pin:${pin} highOrLow:${highOrLow}`);
-     lightsState[Lights.indexOf(pin)] = highOrLow ? PATTERN_OFF : PATTERN_ON;
+     lightsState[Lights.indexOf(pin)] = highOrLow ? PATTERN_ON : PATTERN_OFF;
      signDrawer.drawSign(lightsState);
 
 }

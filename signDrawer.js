@@ -41,7 +41,7 @@ const drawSign = function(lightsState) {
 
 	var signWithoutNewlines = signLights.replace(/\n/g, '')
 	lightsState.forEach(function (value, i) {
-		if (value == 1) {
+		if (value == 0) {
 			var xOrigins = []
 			pixels[i].forEach(function (pixel, j) {
 				// math (important things: emoji length, newlines)
