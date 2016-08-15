@@ -80,7 +80,7 @@ void outsideInOnInsideOutOffBackground() {
 }
 
 void blinkLetters(int times) {
-    for (int x = 0; x < repeat; x++) {
+    for (int x = 0; x < times; x++) {
         lettersAllOff();
         delay(blinky);
 
