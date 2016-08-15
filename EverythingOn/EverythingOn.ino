@@ -8,6 +8,6 @@ void setup() {
 
 void loop() {
     for (int i = 0; i < sizeof(Lights); i++) {
-      digitalWrite(i, HIGH);
+      digitalWrite(i, PATTERN_ON);
     }
 }
