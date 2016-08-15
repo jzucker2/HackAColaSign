@@ -16,6 +16,7 @@ void setup() {
 
 void lettersAllOn() {
     for (int i = 0; i < sizeof(letters); i++) {
+        log('lettersAllOn ', i);
         digitalWrite(letters[i], PATTERN_ON);
         delay(none);
     }
@@ -23,6 +24,7 @@ void lettersAllOn() {
 
 void lettersAllOff() {
     for (int i = 0; i < sizeof(letters); i++) {
+        log('lettersAllOff ', i);
         digitalWrite(letters[i], PATTERN_OFF);
         delay(none);
     }
@@ -30,6 +32,7 @@ void lettersAllOff() {
 
 void lettersOnLeftToRight() {
     for (int i = 0; i < sizeof(letters); i++) {
+        log('lettersOnLeftToRighti ', i);
         digitalWrite(letters[i], PATTERN_ON);
         delay(normal);
     }
@@ -38,6 +41,7 @@ void lettersOnLeftToRight() {
 void backgroundOnLeftToRight() {
     // turn the background on from left to right
     for (int i = 0; i < sizeof(background); i++) {
+        log('backgroundOnLeftToRight i', i);
         digitalWrite(background[i], PATTERN_ON);
         delay(minimal);
     }
@@ -53,7 +57,9 @@ void backgroundOffRightToLeft() {
 void backgroundOnOutsideIn() {
     for (int i = 0, j = sizeof(background) - 1; i < (sizeof(background) / 2); i++, j--) {
         digitalWrite(background[i], PATTERN_ON);
+        log('backgroundOnOutsideIn i', i);
         delay(none);
+        log('backgroundOnOutsideIn j', j);
         digitalWrite(background[j], PATTERN_ON);
         delay(minimal);
     }
@@ -61,8 +67,10 @@ void backgroundOnOutsideIn() {
 
 void backgroundOffInsideOut() {
     for (int i = (sizeof(background) / 2) - 1, j = sizeof(background); i >= 0; i--, j++) {
+        log('backgroundOnOutsideIn i', i);
         digitalWrite(background[i], PATTERN_OFF);
         delay(none);
+        log('backgroundOnOutsideIn j', j);
         digitalWrite(background[j], PATTERN_OFF);
         delay(minimal);
     }

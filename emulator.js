@@ -107,6 +107,10 @@ var random = function(min, max) {
     return Math.floor(Math.random() * ((max - 0) - min) + min);
 }
 
+var log = function(message, integer) {
+    console.log(message, integer)
+}
+
 /*
 
 
