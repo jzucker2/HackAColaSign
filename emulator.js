@@ -107,7 +107,11 @@ var delay = function(time) {
 }
 
 var digitalWrite = function(pin, highOrLow) {
-    console.log(`digitalWrite pin:${pin} highOrLow:${highOrLow}`);
+    if (typeof(pin) === 'undefined') {
+        throw new Error(`You have an undefined pin being set to: ${highOrLow}`)
+    }
+     console.log(`digitalWrite pin:${pin} highOrLow:${highOrLow}`);
+
 }
 
 var sizeof = function(value) {
@@ -122,6 +126,7 @@ var random = function(min, max) {
 var log = function(message, integer) {
     console.log(`${message} ${typeof(integer) !== 'undefined' ? integer : ''}`);
 }
+
 
 /*
 
