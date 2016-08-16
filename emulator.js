@@ -1,3 +1,5 @@
+'use strict';
+
 /*
 
 The following section defines the Constants.h file
@@ -6,24 +8,24 @@ The following section defines the Constants.h file
 
 
 // PIN Constants
-var HackH = 48;
-var HackA = 26;
-var HackC = 24;
-var HackK = 46;
-var MiddleA = 36;
-var ColaC = 38;
-var ColaO = 28;
-var ColaL = 40;
-var ColaA = 30;
-var RedZero = 44;
-var RedOne = 34;
-var RedTwo = 50;
-var RedThree = 42;
-var RedFour = 22;
-var RedFive = 32;
+const HackH = 48;
+const HackA = 26;
+const HackC = 24;
+const HackK = 46;
+const MiddleA = 36;
+const ColaC = 38;
+const ColaO = 28;
+const ColaL = 40;
+const ColaA = 30;
+const RedZero = 44;
+const RedOne = 34;
+const RedTwo = 50;
+const RedThree = 42;
+const RedFour = 22;
+const RedFive = 32;
 
 // Lights
-var Lights = [
+const Lights = [
     HackH,
     HackA,
     HackC,
@@ -42,7 +44,7 @@ var Lights = [
 ];
 
 // Letters
-var letters = [
+const letters = [
     HackH,
     HackA,
     HackC,
@@ -55,7 +57,7 @@ var letters = [
 ];
 
 // Background
-var background = [
+const background = [
     RedZero,
     RedOne,
     RedTwo,
@@ -65,16 +67,16 @@ var background = [
 ];
 
 // Timeouts
-none = 0;
-blinky = 1000;
-minimal = 500;
-normal = 800;
-ish = 2000;
-extended = 4000;
+const none = 0;
+const blinky = 1000;
+const minimal = 500;
+const normal = 800;
+const ish = 2000;
+const extended = 4000;
 
 // Constants
-var PATTERN_OFF = 0; // HIGH
-var PATTERN_ON = 1; // LOW
+const PATTERN_OFF = 0; // HIGH
+const PATTERN_ON = 1; // LOW
 
 
 /*
@@ -85,16 +87,16 @@ The following section defines global methods needed
 
 */
 
-var signDrawer = require('./signDrawer.js');
+const signDrawer = require('./signDrawer.js');
 
-var lightsState = [ ];
+const lightsState = [ ];
 
-for (var idx in Lights) {
+Lights.forEach(function (value, idx) {
     lightsState[idx] = PATTERN_OFF;
-}
+});
 
-var delay = function(time) {
-    var entryTime = Date.now();
+const delay = function(time) {
+    const entryTime = Date.now();
     while (true) {
         if (Date.now() - entryTime >= time) {
             break;
@@ -102,7 +104,7 @@ var delay = function(time) {
     }
 }
 
-var digitalWrite = function(pin, highOrLow) {
+const digitalWrite = function(pin, highOrLow) {
     if (typeof(pin) === 'undefined') {
         throw new Error(`You have an undefined pin being set to: ${highOrLow}`)
     }
@@ -112,16 +114,16 @@ var digitalWrite = function(pin, highOrLow) {
 
 }
 
-var sizeof = function(value) {
+const sizeof = function(value) {
     return value.length;
 }
 
-var random = function(min, max) {
+const random = function(min, max) {
     // Min inclusive, max exclusive
     return Math.floor(Math.random() * ((max - 0) - min) + min);
 }
 
-var log = function(message, integer) {
+const log = function(message, integer) {
     console.log(`${message} ${typeof(integer) !== 'undefined' ? integer : ''}`);
 }
 
@@ -134,43 +136,47 @@ The following section attempts, transpile, and run the arduino code
 
 */
 
-var fs = require('fs');
+const fs = require('fs');
 
-var pathToArduinoCode = './CocaCola/CocaCola.ino';
+let pathToArduinoCode = './CocaCola/CocaCola.ino';
 
 process.argv.forEach(function (value, index, array) {
   pathToArduinoCode = (value == "--file" || value == "-f") && array[index+1] ? array[index+1] : pathToArduinoCode;
 });
 
-console.log(`Loading: ${pathToArduinoCode}`);
+const arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
 
-var arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
+const arduinoCodeParts = arduinoCode.split("// )'(");
 
-
-console.log(`
-Original Code: 
-######################################
-${arduinoCode}
-######################################
-`);
-
-var arduinoCodeParts = arduinoCode.split("// )'(");
-
-var runableCode = arduinoCodeParts[1]
-    .replace(/int ([A-Za-z]*) =/g, ' var $1 =') // Replace any instance of "int variable = n"
-    .replace(/int /g, '') // Remove "int" from any instance of "int variable"
+const runableCode = arduinoCodeParts[1]
+    .replace(/int ([A-Za-z]*) =/g, ' var $1 =') // Replace any instance of "int constiable = n"
+    .replace(/int /g, '') // Remove "int" from any instance of "int constiable"
     .replace(/void loop\(\) {/, 'while (true) {') // Turn our main method into a while loop
     .replace(/void ([A-Za-z]*)/g, ' var $1 = function'); // Replace any "void function" with a javascript function definition
 
-console.log(`
-Runable Code: 
-######################################
-${runableCode}
-######################################
-`);
+
 
 console.log(`
+######################################
+
+Loading: ${pathToArduinoCode}
+
+######################################
+
+${arduinoCode}
+
+######################################
+
+Runable Code: 
+
+######################################
+
+${runableCode}
+
+######################################
+
 Running code:
+
 ######################################
 `);
 
