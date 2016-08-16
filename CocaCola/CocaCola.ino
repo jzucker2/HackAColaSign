@@ -153,10 +153,10 @@ void classicBackground() {
 void outsideInOnInsideOutOffBackground(int times, int endingWithLightsOn) {
 	for (int count = 0; count < times; count++) {
       backgroundOnOutsideIn();
-      delay(extended);
+      delay(ish);
 		if (count + 1 != times || !endingWithLightsOn) {
 			backgroundOffInsideOut();
-	        delay(extended);
+	        delay(ish);
 		}
 	}
 }
@@ -164,7 +164,7 @@ void outsideInOnInsideOutOffBackground(int times, int endingWithLightsOn) {
 void insideOutOnOutsideInOffBackground(int times, int endingWithLightsOn) {
 	for (int count = 0; count < times; count++) {
 	    backgroundOnInsideOut();
-	    delay(extended);
+	    delay(ish);
  		 if (count + 1 != times || !endingWithLightsOn) {
 			 backgroundOffOutsideIn();
 		 }
@@ -172,11 +172,21 @@ void insideOutOnOutsideInOffBackground(int times, int endingWithLightsOn) {
 }
 
 void insideOutOutsideInBackground() {
-	outsideInOnInsideOutOffBackground(random(2, 5), true);
-	delay(ish);
+	for (int i = 0; random(3, 8); i++) {
+		if (random(0, 2) == 0) {
+			outsideInOnInsideOutOffBackground(random(1, 4), true);
+			delay(minimal);
 
-	insideOutOnOutsideInOffBackground(random(2, 5), false);
-	delay(minimal);
+			insideOutOnOutsideInOffBackground(random(1, 4), false);
+			delay(minimal);
+		} else {
+			insideOutOnOutsideInOffBackground(random(1, 4), true);
+			delay(minimal);
+
+			outsideInOnInsideOutOffBackground(random(1, 4), false);
+			delay(minimal);
+		}
+	}
 }
 
 void racingOnLeftToRightBackground() {
@@ -263,17 +273,25 @@ void loop() {
 	int possibility = random(0, 100);
 	if (possibility < 70) {
 		runClassic();
-		blinkMax = 2;
+
+		blinkMax = 3;
 	} else if (possibility < 95) {
-		if (random(0, 10) == 0) {
+		if (random(0, 200) == 0) {
 			runBackgroundPattern();
 			runLetterPattern();
 		} else {
-			runLetterPattern();
-			runBackgroundPattern();
-		}
+			blinkMax = 5
 
-		blinkMax = 4
+			runLetterPattern();
+
+			for (int i = 0; i < random(1, 5); i++) {
+				runBackgroundPattern();
+
+				if (random(0, 10) == 0) {
+				   	blinkLetters(random(1, blinkMax));
+				}
+			}
+		}
 	} else {
 		// super rare things
 	}
