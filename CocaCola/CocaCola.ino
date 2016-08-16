@@ -156,6 +156,7 @@ void outsideInOnInsideOutOffBackground(int times, int endingWithLightsOn) {
       delay(extended);
 		if (count + 1 != times || !endingWithLightsOn) {
 			backgroundOffInsideOut();
+	        delay(extended);
 		}
 	}
 }
@@ -172,10 +173,10 @@ void insideOutOnOutsideInOffBackground(int times, int endingWithLightsOn) {
 
 void insideOutOutsideInBackground() {
 	outsideInOnInsideOutOffBackground(random(2, 5), true);
-	delay(normal);
+	delay(ish);
 
 	insideOutOnOutsideInOffBackground(random(2, 5), false);
-	delay(normal);
+	delay(minimal);
 }
 
 void racingOnLeftToRightBackground() {
@@ -228,34 +229,56 @@ void blinkBackground(int times) {
 	delay(normal);
 }
 
+// Randomness
+
+void runClassic() {
+    lettersOnLeftToRight();
+    classicBackground();
+}
+
+void runLetterPattern() {
+	// if new patterns are added, add a new case statement, and bump up the max random value by one
+	switch (random(0, 2)) {
+	case 0: { lettersOnLeftToRight(); break; }
+	case 1: { blinkLetters(random(5, 10)); break; }
+	default: { break; }
+	}
+}
+
+void runBackgroundPattern() {
+	switch(random(0, 4)) {
+	case 0: { classicBackground(); break; }
+	case 1: { insideOutOutsideInBackground(); break; }
+	case 2: { racingOnLeftToRightBackground(); break; }
+	case 3: { blinkBackground(random(5, 10)); backgroundAllOn(); break; }
+	}
+}
+
 // Arduino loop
 
 void loop() {
     allOff();
 
+	int blinkMax = 0;
 	int possibility = random(0, 100);
 	if (possibility < 70) {
-	    lettersOnLeftToRight();
-	    classicBackground();
+		runClassic();
+		blinkMax = 2;
 	} else if (possibility < 95) {
-		// if new patterns are added, add a new case statement, and bump up the max random value by one
-        switch (random(0, 2)) {
-       	case 0: { lettersOnLeftToRight(); break; }
-		case 1: { blinkLetters(random(5, 10)); break; }
-		default: { break; }
+		if (random(0, 10) == 0) {
+			runBackgroundPattern();
+			runLetterPattern();
+		} else {
+			runLetterPattern();
+			runBackgroundPattern();
 		}
 
-		switch(random(0, 4)) {
-		case 0: { classicBackground(); break; }
-		case 1: { insideOutOutsideInBackground(); break; }
-		case 2: { racingOnLeftToRightBackground(); break; }
-		case 3: { blinkBackground(random(5, 10)); backgroundAllOn(); break; }
-		}
+		blinkMax = 4
 	} else {
 		// super rare things
 	}
 
-   	blinkLetters(random(3, 7));
+   	blinkLetters(random(1, blinkMax));
 
    	lettersAllOff();
 
