@@ -1,4 +1,3 @@
-
 const signLights = `
 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 
 🔴 🔴 🔴 ⚪️ 🔴 🔴 🔴 🔴 ⚪️ 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 ⚪️ 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ ⚪️ 🔴 🔴 
@@ -41,20 +40,20 @@ console.reset = function () {
   return process.stdout.write('\033c');
 }
 
-let verbose = false
+var verbose = false
 process.argv.forEach(function (value, index, array) {
   verbose = (verbose || value == "--verbose" || value == "-v")
 });
 
 const drawSign = function(lightsState) {
 	
-	let signWithoutNewlines = signLights.replace(/\n/g, '');
+	var signWithoutNewlines = signLights.replace(/\n/g, '');
 	lightsState.forEach(function (value, i) {
 		if (value == 0) {
 			pixels[i].forEach(function (pixel, j) {
 				// math (important things: emoji length, newlines)
-				const index = (pixel[0] + (pixel[0] + (pixel[1] * (columnLength - 1)) * characterLength)) + (characterLength * pixel[1]) + pixel[0]
-				signWithoutNewlines = signWithoutNewlines.replaceCharacterAtIndexWithCharacter(index , '⚫️')
+				const index = (pixel[0] + (pixel[0] + (pixel[1] * (columnLength - 1)) * characterLength)) + (characterLength * pixel[1]) + pixel[0];
+				signWithoutNewlines = signWithoutNewlines.replaceCharacterAtIndexWithCharacter(index , '⚫️');
 			})
 		}
 	});
@@ -62,7 +61,7 @@ const drawSign = function(lightsState) {
 	const sign = [];
 	while (signWithoutNewlines.length > 0) {
 		sign.push(signWithoutNewlines.substring(0, columnLength * characterLength) + '\n');
-		signWithoutNewlines = signWithoutNewlines.substring(columnLength * characterLength)
+		signWithoutNewlines = signWithoutNewlines.substring(columnLength * characterLength);
 	}
 	if (!verbose) {
 		console.reset();

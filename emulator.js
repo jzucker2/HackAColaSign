@@ -136,7 +136,14 @@ The following section attempts, transpile, and run the arduino code
 
 var fs = require('fs');
 
-var arduinoCode = fs.readFileSync('./CocaCola/CocaCola.ino').toString();
+var pathToArduinoCode = './CocaCola/CocaCola.ino';
+
+console.log(process.argv);
+process.argv.forEach(function (value, index, array) {
+  pathToArduinoCode = (value == "--file" || value == "-f") && array[index+1] ? array[index+1] : pathToArduinoCode;
+});
+
+var arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
 
 console.log(`
 Original Code: 

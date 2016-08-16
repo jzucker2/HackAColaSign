@@ -2,19 +2,26 @@
 
 void setup() {
     for (int i = 0; i < sizeof(Lights); i++) {
-        pinMode(Lights[i], OUTPUT);
+        pinMode(Lights[i], PATTERN_INITIALIZE);
     }
 }
 
+// code above the man is ignored by the emulator
+// code below it is transpiled into js and run by the emulator
+
+// )'(
+// Scenes
+// roughly: anything that calls `digitalWrite()` is a scene
+
 void loop() {
     for (int i = 0; i < sizeof(Lights); i++) {
-      digitalWrite(i, HIGH);
+      digitalWrite(i, PATTERN_OFF);
     }
 
     for (int i = 0; i < sizeof(Lights); i++) {
-      digitalWrite(Lights[i], LOW);
+      digitalWrite(Lights[i], PATTERN_ON);
       delay(1000);
-      digitalWrite(Lights[i], HIGH);
+      digitalWrite(Lights[i], PATTERN_OFF);
       delay(1000);
     }
 }
