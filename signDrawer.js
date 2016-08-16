@@ -35,7 +35,20 @@ String.prototype.replaceCharacterAtIndexWithCharacter = function(index, characte
     return this.substr(0, index) + character + this.substr(index + character.length);
 }
 
+console.reset = function () {
+  return process.stdout.write('\033c');
+}
+
 const drawSign = function(lightsState) {
+	var verbose = false
+	process.argv.forEach(function (value, index, array) {
+	  verbose = (verbose || value == "--verbose" || value == "-v")
+	});
+
+	if (!verbose) {
+		console.reset();
+	}
+
 	// emoji are utf-16, not utf-8; the length of a single composed character is 2 utf-8 character codes
 	var characterLength = '🔴'.length
 
