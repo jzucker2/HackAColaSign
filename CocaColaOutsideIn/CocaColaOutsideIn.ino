@@ -24,7 +24,7 @@ void loop() {
         delay(normal);
     }
     
-    for (int i = 0, j = sizeof(background); i < (sizeof(background) / 2); i++, j--) {
+    for (int i = 0, j = sizeof(background) - 1; i < (sizeof(background) / 2); i++, j--) {
         digitalWrite(background[i], PATTERN_ON);
         delay(none);
         digitalWrite(background[j], PATTERN_ON);
@@ -33,7 +33,7 @@ void loop() {
 
     delay(extended);
 
-    for (int i = (sizeof(background) / 2) - 1, j = (sizeof(background) / 2); i >= 0; i--, j++) {
+    for (int i = (sizeof(background) / 2) - 1, j = i + 1; i >= 0; i--, j++) {
         digitalWrite(background[i], PATTERN_OFF);
         delay(none);
         digitalWrite(background[j], PATTERN_OFF);
@@ -42,7 +42,7 @@ void loop() {
 
     delay(normal);
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(letters[i], PATTERN_OFF);
         delay(none);
     }
