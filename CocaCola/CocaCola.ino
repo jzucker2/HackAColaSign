@@ -280,7 +280,7 @@ void loop() {
 			runBackgroundPattern();
 			runLetterPattern();
 		} else {
-			blinkMax = 5
+			blinkMax = 5;
 
 			runLetterPattern();
 
