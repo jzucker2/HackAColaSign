@@ -11,7 +11,7 @@ const signLights = `
 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 🔴 
 `;
 
-var pixels  = [
+const pixels  = [
 	/* HackH */  [[3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [4, 4], [5, 4], [6, 4], [7, 4], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], [9, 6], [10, 6], [11, 6], [12, 6], [13, 6], [14, 6], [15, 6], [16, 6], [17, 6], [18, 6], [19, 6], [20, 6], [21, 6], [22, 6], [23, 6], [24, 6], [25, 6], [26, 6]],
 	/* HackA */  [[11, 2], [12, 2], [13, 2], [11, 3], [13, 3], [11, 4], [12, 4], [13, 4], [14, 4], [15, 4]],
    /* HackC */  [[17, 2], [18, 2], [19, 2], [20, 2], [17, 3], [17, 4], [18, 4], [19, 4], [20, 4]],
@@ -29,7 +29,9 @@ var pixels  = [
     /* RedFive */ [[50, 0], [50, 2], [50, 3], [50, 4], [50, 5], [50, 6], [50, 7], [50, 8], [51, 0], [51, 2], [51, 3], [51, 4], [51, 7], [51, 8], [52, 0], [52, 2], [52, 3], [52, 7], [52, 8], [53, 0], [53, 2], [53, 5], [53, 6], [53, 7], [53, 8], [54, 0], [54, 4], [54, 5], [54, 6], [54, 7], [54, 8], [55, 0], [55, 3], [55, 4], [55, 5], [55, 6], [55, 7], [55, 8], [56, 0], [56, 2], [56, 3], [56, 4], [56, 5], [56, 6], [56, 7], [56, 8], [57, 0], [57, 2], [57, 3], [57, 7], [57, 8], [58, 0], [58, 2], [58, 3], [58, 5], [58, 7], [58, 8], [59, 0], [59, 2], [59, 3], [59, 7], [59, 8], [60, 0], [60, 2], [60, 3], [60, 4], [60, 5], [60, 7], [60, 8], [61, 0], [61, 2], [61, 3], [61, 4], [61, 5], [61, 6], [61, 7], [61, 8], [62, 0], [62, 1], [62, 2], [62, 3], [62, 4], [62, 5], [62, 6], [62, 7], [62, 8], [63, 0], [63, 1], [63, 2], [63, 3], [63, 4], [63, 5], [63, 6], [63, 7], [63, 8]]
 ];
 
-var columnLength = 96
+const columnLength = 96;
+// emoji are utf-16, not utf-8; the length of a single composed character is 2 utf-8 character codes
+const characterLength = '🔴'.length;
 
 String.prototype.replaceCharacterAtIndexWithCharacter = function(index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length);
@@ -39,38 +41,33 @@ console.reset = function () {
   return process.stdout.write('\033c');
 }
 
+let verbose = false
+process.argv.forEach(function (value, index, array) {
+  verbose = (verbose || value == "--verbose" || value == "-v")
+});
+
 const drawSign = function(lightsState) {
-	var verbose = false
-	process.argv.forEach(function (value, index, array) {
-	  verbose = (verbose || value == "--verbose" || value == "-v")
-	});
-
-	if (!verbose) {
-		console.reset();
-	}
-
-	// emoji are utf-16, not utf-8; the length of a single composed character is 2 utf-8 character codes
-	var characterLength = '🔴'.length
-
-	var signWithoutNewlines = signLights.replace(/\n/g, '')
+	
+	let signWithoutNewlines = signLights.replace(/\n/g, '');
 	lightsState.forEach(function (value, i) {
 		if (value == 0) {
-			var xOrigins = []
 			pixels[i].forEach(function (pixel, j) {
 				// math (important things: emoji length, newlines)
-				var index = (pixel[0] + (pixel[0] + (pixel[1] * (columnLength - 1)) * characterLength)) + (characterLength * pixel[1]) + pixel[0]
+				const index = (pixel[0] + (pixel[0] + (pixel[1] * (columnLength - 1)) * characterLength)) + (characterLength * pixel[1]) + pixel[0]
 				signWithoutNewlines = signWithoutNewlines.replaceCharacterAtIndexWithCharacter(index , '⚫️')
 			})
 		}
 	});
 
-	var sign = ''
+	const sign = [];
 	while (signWithoutNewlines.length > 0) {
-		sign += signWithoutNewlines.substring(0, columnLength * characterLength) + '\n'
+		sign.push(signWithoutNewlines.substring(0, columnLength * characterLength) + '\n');
 		signWithoutNewlines = signWithoutNewlines.substring(columnLength * characterLength)
 	}
-
-	console.log(sign);
+	if (!verbose) {
+		console.reset();
+	}
+	console.log(sign.join(''));
 }
 
 exports.drawSign = drawSign;
