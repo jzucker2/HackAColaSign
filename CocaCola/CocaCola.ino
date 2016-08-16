@@ -13,6 +13,7 @@ void setup() {
 
 // )'(
 // Scenes
+// roughly: anything that calls `digitalWrite()` is a scene
 
 void lettersAllOn() {
     log('lettersAllOn - START');
@@ -140,11 +141,13 @@ void allOn() {
 }
 
 // Patterns
+// roughly: anything that calls functions that call digitalWrite() is a pattern
 
 void classicBackground() {
     backgroundOnLeftToRight();
     delay(extended);
     backgroundOffRightToLeft();
+    delay(normal);
 }
 
 void outsideInOnInsideOutOffBackground(int times, int endingWithLightsOn) {
@@ -167,7 +170,15 @@ void insideOutOnOutsideInOffBackground(int times, int endingWithLightsOn) {
 	 }
 }
 
-void racingOnLeftToRight() {
+void insideOutOutsideInBackground() {
+	outsideInOnInsideOutOffBackground(random(2, 5), true);
+	delay(normal);
+
+	insideOutOnOutsideInOffBackground(random(2, 5), false);
+	delay(normal);
+}
+
+void racingOnLeftToRightBackground() {
 	for (int x = 0; x < sizeof(background); x++) {
 		for (int y = 0; y < sizeof(background) - x - 1; y++) {
 			digitalWrite(background[y], PATTERN_ON);
@@ -206,13 +217,15 @@ void blinkLetters(int times) {
 }
 
 void blinkBackground(int times) {
-   for (int x = 0; x < times; x++) {
-       backgroundAllOff();
-       delay(blinky);
+	for (int x = 0; x < times; x++) {
+	    backgroundAllOff();
+	    delay(blinky);
 
-       backgroundAllOn();
-       delay(blinky);
-   }
+	    backgroundAllOn();
+	    delay(blinky);
+	}
+
+	delay(normal);
 }
 
 // Arduino loop
@@ -220,23 +233,31 @@ void blinkBackground(int times) {
 void loop() {
     allOff();
 
-    lettersOnLeftToRight();
-    classicBackground();
-    delay(normal);
+	int possibility = random(0, 100);
+	if (possibility < 70) {
+	    lettersOnLeftToRight();
+	    classicBackground();
+	} else if (possibility < 95) {
+		// if new patterns are added, add a new case statement, and bump up the max random value by one
+        switch (random(0, 2)) {
+       	case 0: { lettersOnLeftToRight(); break; }
+		case 1: { blinkLetters(random(5, 10)); break; }
+		default: { break; }
+		}
 
-    outsideInOnInsideOutOffBackground(random(2, 5), true);
-    delay(normal);
+		switch(random(0, 4)) {
+		case 0: { classicBackground(); break; }
+		case 1: { insideOutOutsideInBackground(); break; }
+		case 2: { racingOnLeftToRightBackground(); break; }
+		case 3: { blinkBackground(random(5, 10)); backgroundAllOn(); break; }
+		}
+	} else {
+		// super rare things
+	}
 
-	 insideOutOnOutsideInOffBackground(random(2, 5), false)
-	 delay(normal);
+   	blinkLetters(random(3, 7));
 
-	 racingOnLeftToRight();
-	 blinkBackground(random(5, 10));
-    delay(normal);
-
-    blinkLetters(random(5, 10));
-
-    lettersAllOff();
+   	lettersAllOff();
 
     delay(ish);
 }
