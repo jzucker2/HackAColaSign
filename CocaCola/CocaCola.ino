@@ -32,6 +32,24 @@ void lettersAllOff() {
     }
 }
 
+void backgroundAllOn() {
+    log('backgroundAllOn - START');
+    for (int i = 0; i < sizeof(background); i++) {
+        log('backgroundAllOn ', i);
+        digitalWrite(background[i], PATTERN_ON);
+        delay(none);
+    }
+}
+
+void backgroundAllOff() {
+    log('backgroundAllOff - START');
+    for (int i = 0; i < sizeof(background); i++) {
+        log('backgroundAllOff i: ', i);
+        digitalWrite(background[i], PATTERN_OFF);
+        delay(none);
+    }
+}
+
 void lettersOnLeftToRight() {
     log('lettersOnLeftToRight - START');
     for (int i = 0; i < sizeof(letters); i++) {
@@ -83,6 +101,30 @@ void backgroundOffInsideOut() {
     }
 }
 
+void backgroundOffOutsideIn() {
+    log('backgroundOffOutsideIn - START');
+    for (int i = 0, j = sizeof(background) - 1; i < (sizeof(background) / 2); i++, j--) {
+        log('backgroundOffOutsideIn i: ', i);
+        digitalWrite(background[i], PATTERN_OFF);
+        delay(none);
+        log('backgroundOffOutsideIn j: ', j);
+        digitalWrite(background[j], PATTERN_OFF);
+        delay(minimal);
+    }
+}
+
+void backgroundOnInsideOut() {
+    log('backgroundOnInsideOut - START');
+    for (int i = (sizeof(background) / 2) - 1, j = i + 1; i >= 0; i--, j++) {
+        log('backgroundOnInsideOut i: ', i);
+        digitalWrite(background[i], PATTERN_ON);
+        delay(none);
+        log('backgroundOnInsideOut j: ', j);
+        digitalWrite(background[j], PATTERN_ON);
+        delay(minimal);
+    }
+}
+
 void allOff() {
     for (int i = 0; i < sizeof(Lights); i++) {
         digitalWrite(Lights[i], PATTERN_OFF);
@@ -105,10 +147,52 @@ void classicBackground() {
     backgroundOffRightToLeft();
 }
 
-void outsideInOnInsideOutOffBackground() {
-    backgroundOnOutsideIn();
-    delay(extended);
-    backgroundOffInsideOut();
+void outsideInOnInsideOutOffBackground(int times, int endingWithLightsOn) {
+	for (int count = 0; count < times; count++) {
+      backgroundOnOutsideIn();
+      delay(extended);
+		if (count + 1 != times || !endingWithLightsOn) {
+			backgroundOffInsideOut();
+		}
+	}
+}
+
+void insideOutOnOutsideInOffBackground(int times, int endingWithLightsOn) {
+	for (int count = 0; count < times; count++) {
+	    backgroundOnInsideOut();
+	    delay(extended);
+ 		 if (count + 1 != times || !endingWithLightsOn) {
+			 backgroundOffOutsideIn();
+		 }
+	 }
+}
+
+void racingOnLeftToRight() {
+	for (int x = 0; x < sizeof(background); x++) {
+		for (int y = 0; y < sizeof(background) - x - 1; y++) {
+			digitalWrite(background[y], PATTERN_ON);
+			delay(minimal);
+			digitalWrite(background[y], PATTERN_OFF);
+		}
+
+		digitalWrite(background[sizeof(background) - x - 1], PATTERN_ON);
+		delay(minimal);
+	}
+}
+
+void blinkBackgroundPairLeftToRight() {
+	int half = sizeof(background) / 2;
+
+	for (int count = 0; count < random(5, 10); count++) {
+		for (int x = 0; x < half; x++) {
+			digitalWrite(background[x], PATTERN_ON);
+			digitalWrite(background[x + half], PATTERN_ON);
+			delay(minimal);
+
+			digitalWrite(background[x], PATTERN_OFF);
+			digitalWrite(background[x + half], PATTERN_OFF);
+		}
+	}
 }
 
 void blinkLetters(int times) {
@@ -121,6 +205,16 @@ void blinkLetters(int times) {
     }
 }
 
+void blinkBackground(int times) {
+   for (int x = 0; x < times; x++) {
+       backgroundAllOff();
+       delay(blinky);
+
+       backgroundAllOn();
+       delay(blinky);
+   }
+}
+
 // Arduino loop
 
 void loop() {
@@ -130,7 +224,14 @@ void loop() {
     classicBackground();
     delay(normal);
 
-    outsideInOnInsideOutOffBackground();
+    outsideInOnInsideOutOffBackground(random(2, 5), true);
+    delay(normal);
+
+	 insideOutOnOutsideInOffBackground(random(2, 5), false)
+	 delay(normal);
+
+	 racingOnLeftToRight();
+	 blinkBackground(random(5, 10));
     delay(normal);
 
     blinkLetters(random(5, 10));
