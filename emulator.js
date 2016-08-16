@@ -138,12 +138,14 @@ var fs = require('fs');
 
 var pathToArduinoCode = './CocaCola/CocaCola.ino';
 
-console.log(process.argv);
 process.argv.forEach(function (value, index, array) {
   pathToArduinoCode = (value == "--file" || value == "-f") && array[index+1] ? array[index+1] : pathToArduinoCode;
 });
 
+console.log(`Loading: ${pathToArduinoCode}`);
+
 var arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
+
 
 console.log(`
 Original Code: 
