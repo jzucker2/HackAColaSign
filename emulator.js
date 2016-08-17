@@ -154,6 +154,9 @@ const runableCode = arduinoCodeParts[1]
     .replace(/void loop\(\) {/, 'while (true) {') // Turn our main method into a while loop
     .replace(/void ([A-Za-z]*)/g, ' var $1 = function'); // Replace any "void function" with a javascript function definition
 
+if (runableCode.indexOf(")\n") != -1) {
+        throw new Error(`)\\n found without a semicolon`)
+}
 
 
 console.log(`
