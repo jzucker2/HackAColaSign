@@ -160,10 +160,10 @@ const arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
 const arduinoCodeParts = arduinoCode.split("// )'(");
 
 const runableCode = arduinoCodeParts[1]
-    .replace(/int(\s*[A-Za-z]*\s*)=/g, 'var$1=') // Replace any instance of "int constiable = n"
-    .replace(/int /g, '') // Remove "int" from any instance of "int constiable"
+    .replace(/int(\s*_*[A-Za-z]+_*\d*\s*)=/g, 'var$1=') // Replace any instance of "int variable = n"
+    .replace(/int /g, '') // Remove "int" from any instance of "int variable"
     .replace(/void loop\(\) {/, 'while (true) {') // Turn our main method into a while loop
-    .replace(/void ([A-Za-z]*)/g, ' var $1 = function'); // Replace any "void function" with a javascript function definition
+    .replace(/void (\s*_*[A-Za-z]+_*\d*\s*)/g, ' var $1 = function'); // Replace any "void function" with a javascript function definition
 
 if (runableCode.indexOf(")\n") != -1) {
         throw new Error(`${pathToArduinoCode}: )\\n found without a semicolon`);
