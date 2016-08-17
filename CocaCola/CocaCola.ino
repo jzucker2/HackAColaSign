@@ -246,6 +246,31 @@ void runClassic() {
     classicBackground();
 }
 
+void runTracer() {
+    for (int i = 0; i < sizeof(background); i++) {
+      digitalWrite(background[i], PATTERN_ON);
+    }
+    for (int i = 0; i < sizeof(letters); i++) {
+      digitalWrite(Lights[i], PATTERN_ON);
+      delay(250);
+      digitalWrite(Lights[i], PATTERN_OFF);
+      delay(250);
+    }
+    for(int j=0; j< 3; j++) {
+
+      for (int i = 0; i < sizeof(letters); i++) {
+        digitalWrite(Lights[i], PATTERN_ON);
+      }
+      delay(250);
+      for (int i = 0; i < sizeof(letters); i++) {
+        digitalWrite(Lights[i], PATTERN_OFF);
+      }
+      delay(250);
+
+    }
+    delay(250);
+}
+
 void runLetterPattern() {
 	// if new patterns are added, add a new case statement, and bump up the max random value by one
 	switch (random(0, 2)) {
@@ -271,10 +296,14 @@ void loop() {
 
 	int blinkMax = 0;
 	int possibility = random(0, 100);
-	if (possibility < 70) {
-		runClassic();
+    if (possibility < 20) {
+		runTracer();
 
-		blinkMax = 3;
+		blinkMax = 1;
+    } else if (possibility < 70) {
+        runClassic();
+
+        blinkMax = 3;
 	} else if (possibility < 95) {
 		if (random(0, 200) == 0) {
 			runBackgroundPattern();
