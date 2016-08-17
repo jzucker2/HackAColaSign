@@ -19,21 +19,21 @@ void loop() {
     }
     for (int i = 0; i < sizeof(letters); i++) {
       digitalWrite(Lights[i], PATTERN_ON);
-      delay(250)
+      delay(250);
       digitalWrite(Lights[i], PATTERN_OFF);
-      delay(250)
+      delay(250);
     }
-    for(var int j=0; j< 3; j++) {
+    for(int j=0; j< 3; j++) {
 
       for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(Lights[i], PATTERN_ON);
       }
-      delay(250)
+      delay(250);
       for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(Lights[i], PATTERN_OFF);
       }
-      delay(250)
+      delay(250);
 
     }
-    delay(250)
+    delay(250);
 }
