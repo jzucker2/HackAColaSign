@@ -11,7 +11,7 @@ void setup() {
 
 // )'(
 // Scenes
-// roughly: anything that calls `digitalWrite()` is a scene
+// roughly: anything that calls `digitalWrite();` is a scene
 
 void loop() {
     for (int i = 0; i < sizeof(background); i++) {

@@ -11,5 +11,10 @@
 - Without Node >= 4.0.0 installed: Install Node >= 4.0.0, and see prior instructions
 - Additionally you may pass a path to an an alternative file, ie: `node emulator.js -f ./CocaColaOutsideIn/CocaColaOutsideIn.ino`
 
+## For testing
+- Pass the -t flag to verify your c++ makes sense to the emulator, without running the emulator, it might pick up some c++ errors for you
+- Test your thing: `node emulator -t -f YourThing/YourThing.ino`
+- Test all the things: `for i in `find */*.ino` ; do node emulator -t -f $i ; done`
+
 ## For further [documentation](./CocaCola/Constants.h)
 - See [CocaCola/Constants.h](./CocaCola/Constants.h)

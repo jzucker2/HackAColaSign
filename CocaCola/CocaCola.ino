@@ -13,7 +13,7 @@ void setup() {
 
 // )'(
 // Scenes
-// roughly: anything that calls `digitalWrite()` is a scene
+// roughly: anything that calls `digitalWrite();` is a scene
 
 void lettersAllOn() {
     log('lettersAllOn - START');

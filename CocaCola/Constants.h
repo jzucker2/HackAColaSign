@@ -1,4 +1,4 @@
-// you can pass one of these enum values into `digitalWrite()` as a pin, instead of having to know the raw pin value
+// you can pass one of these enum values into `digitalWrite();` as a pin, instead of having to know the raw pin value
 // eg: `pinMode(HackH, PATTERN_INITIALIZE); digitalWrite(HackH, PATTERN_ON);` will turn the letter `H` on
 typedef enum {
     HackH = 48,
@@ -18,7 +18,7 @@ typedef enum {
     RedFive = 32
  } PatternToPin;
 
-// since you can't enumerate over an enum in C, enumerate over this instead, using `sizeof(Lights)` to know how many lights there are
+// since you can't enumerate over an enum in C, enumerate over this instead, using `sizeof(Lights);` to know how many lights there are
 //    eg:
 //    for (int i = 0; i < sizeof(Lights); i++) {
 //        pinMode(Lights[i], PATTERN_INITIALIZE);

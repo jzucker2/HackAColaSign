@@ -139,10 +139,18 @@ The following section attempts, transpile, and run the arduino code
 const fs = require('fs');
 
 let pathToArduinoCode = './CocaCola/CocaCola.ino';
+let test = false;
 
 process.argv.forEach(function (value, index, array) {
-  pathToArduinoCode = (value == "--file" || value == "-f") && array[index+1] ? array[index+1] : pathToArduinoCode;
+
+    if ((value == "--file" || value == "-f") && array[index+1]) {
+        pathToArduinoCode = array[index+1];
+    } else if ((value == "--test" || value == "-t") && array[index+1]) {
+        test = true;
+    }
+
 });
+
 
 const arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
 
@@ -155,9 +163,14 @@ const runableCode = arduinoCodeParts[1]
     .replace(/void ([A-Za-z]*)/g, ' var $1 = function'); // Replace any "void function" with a javascript function definition
 
 if (runableCode.indexOf(")\n") != -1) {
-        throw new Error(`)\\n found without a semicolon`)
+        throw new Error(`${pathToArduinoCode}: )\\n found without a semicolon`);
 }
 
+if (test) {
+    // Will pass the test flag to verify quickly
+    console.log(`OK: ${pathToArduinoCode}`);
+    process.exit(0);
+}
 
 console.log(`
 ######################################
