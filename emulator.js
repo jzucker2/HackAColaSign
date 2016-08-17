@@ -140,13 +140,16 @@ const fs = require('fs');
 
 let pathToArduinoCode = './CocaCola/CocaCola.ino';
 let test = false;
+let verbose = false;
 
 process.argv.forEach(function (value, index, array) {
 
     if ((value == "--file" || value == "-f") && array[index+1]) {
         pathToArduinoCode = array[index+1];
-    } else if ((value == "--test" || value == "-t") && array[index+1]) {
+    } else if (value == "--test" || value == "-t") {
         test = true;
+    } else if (value == "--verbose" || value == "-v") {
+        verbose = true;
     }
 
 });
@@ -157,7 +160,7 @@ const arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
 const arduinoCodeParts = arduinoCode.split("// )'(");
 
 const runableCode = arduinoCodeParts[1]
-    .replace(/int ([A-Za-z]*) =/g, ' var $1 =') // Replace any instance of "int constiable = n"
+    .replace(/int(\s*[A-Za-z]*\s*)=/g, 'var$1=') // Replace any instance of "int constiable = n"
     .replace(/int /g, '') // Remove "int" from any instance of "int constiable"
     .replace(/void loop\(\) {/, 'while (true) {') // Turn our main method into a while loop
     .replace(/void ([A-Za-z]*)/g, ' var $1 = function'); // Replace any "void function" with a javascript function definition
@@ -166,34 +169,38 @@ if (runableCode.indexOf(")\n") != -1) {
         throw new Error(`${pathToArduinoCode}: )\\n found without a semicolon`);
 }
 
+if (verbose) {
+
+    console.log(`
+    ######################################
+
+    Loading: ${pathToArduinoCode}
+
+    ######################################
+
+    ${arduinoCode}
+
+    ######################################
+
+    Runable Code: 
+
+    ######################################
+
+    ${runableCode}
+
+    ######################################
+
+    Running code:
+
+    ######################################
+    `);
+
+}
+
 if (test) {
     // Will pass the test flag to verify quickly
     console.log(`OK: ${pathToArduinoCode}`);
     process.exit(0);
 }
-
-console.log(`
-######################################
-
-Loading: ${pathToArduinoCode}
-
-######################################
-
-${arduinoCode}
-
-######################################
-
-Runable Code: 
-
-######################################
-
-${runableCode}
-
-######################################
-
-Running code:
-
-######################################
-`);
 
 eval(runableCode);
