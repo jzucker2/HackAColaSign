@@ -1,6 +1,6 @@
 # HackAColaSign
 
-![](https://github.com/siong1987/HackAColaSign/blob/GIFFFFFFFFF/Assets/hackacola.gif?raw=true)
+![](./Assets/hackacola.gif?raw=true)
 
 ## To make a new [pattern](./CocaColaClassic/demo.mov)
 - copy the contents of [EverythingOn](./EverythingOn) into a new folder, and rename [EverythingOn.ino](./EverythingOn/EverythingOn.ino) to `folder-name.ino`
