@@ -239,6 +239,19 @@ void blinkBackground(int times) {
 	delay(normal);
 }
 
+void flickerPattern() {
+	allOn();
+
+	for (int i = 0; i < random(5, 10); i++) {
+		int pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
+		
+		digitalWrite(pin, PATTERN_OFF);
+		delay(random(minimal / 10, minimal / 2));
+		digitalWrite(pinMode, PATTERN_ON);
+		delay(ish);
+	}
+}
+
 // Randomness
 
 void runClassic() {
@@ -294,6 +307,7 @@ void runBackgroundPattern() {
 void loop() {
     allOff();
 
+	int blinkMin = 1;
 	int blinkMax = 0;
 	int possibility = random(0, 100);
     if (possibility < 20) {
@@ -322,10 +336,11 @@ void loop() {
 			}
 		}
 	} else {
-		// super rare things
+		flickerPattern();
+		blinkMin = 0;
 	}
 
-   	blinkLetters(random(1, blinkMax));
+   	blinkLetters(random(blinkMin, blinkMax));
 
    	lettersAllOff();
 
