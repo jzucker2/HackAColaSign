@@ -160,6 +160,7 @@ const arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
 const arduinoCodeParts = arduinoCode.split("// )'(");
 
 const runableCode = arduinoCodeParts[1]
+    .replace(/\[\]\s?=\s?/g, ' = ') // turn any C array[]'s into [regular, arrays]
     .replace(/int(\s*_*[A-Za-z]+_*\d*\s*)=/g, 'var$1=') // Replace any instance of "int variable = n"
     .replace(/int /g, '') // Remove "int" from any instance of "int variable"
     .replace(/void loop\(\) {/, 'while (true) {') // Turn our main method into a while loop
