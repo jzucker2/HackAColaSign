@@ -242,12 +242,15 @@ void blinkBackground(int times) {
 void flickerPattern() {
 	allOn();
 
-	for (int i = 0; i < random(5, 10); i++) {
-		int pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
+	int pin = 0;
+	for (int i = 0; i < random(5, 20); i++) {
+		if (i % random(1, 5) == 0) {
+			pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
+		}
 		
 		digitalWrite(pin, PATTERN_OFF);
 		delay(random(minimal / 10, minimal / 2));
-		digitalWrite(pinMode, PATTERN_ON);
+		digitalWrite(pin, PATTERN_ON);
 		delay(ish);
 	}
 }
