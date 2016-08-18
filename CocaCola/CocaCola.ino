@@ -374,19 +374,21 @@ void runTracer() {
 
 void runLetterPattern() {
 	// if new patterns are added, add a new case statement, and bump up the max random value by one
-	switch (random(0, 2)) {
+	switch (random(0, 3)) {
 	case 0: { lettersOnLeftToRight(); break; }
 	case 1: { blinkLetters(random(5, 10)); break; }
+	case 2: { blinkLettersOnRandom(); break; }
 	default: { break; }
 	}
 }
 
 void runBackgroundPattern() {
-	switch(random(0, 4)) {
+	switch(random(0, 5)) {
 	case 0: { classicBackground(); break; }
 	case 1: { insideOutOutsideInBackground(); break; }
 	case 2: { racingOnLeftToRightBackground(); break; }
 	case 3: { blinkBackground(random(5, 10)); backgroundAllOn(); break; }
+	case 4: { blinkBackgroundOnRandom(); break; }
 	}
 }
 
@@ -398,15 +400,19 @@ void loop() {
 	int blinkMin = 1;
 	int blinkMax = 0;
 	int possibility = random(0, 100);
-    if (possibility < 20) {
-		runTracer();
 
-		blinkMax = 1;
-    } else if (possibility < 70) {
-        runClassic();
-
-        blinkMax = 3;
-	} else if (possibility < 95) {
+	if (possibility > 95) { // rare things, only happen 5% of the time
+		switch(random(0, 2)) {
+		case 0:
+			flickerPattern(random(0, 2), random(0, 2));
+			blinkMin = 0;
+			break;
+		case 1:
+			blinkAllOnRandom();
+			blinkMax = 3
+			break;
+		}
+	} else if (possibility > 70) { // less rare things, happen 25% of the time
 		if (random(0, 200) == 0) {
 			runBackgroundPattern();
 			runLetterPattern();
@@ -423,9 +429,14 @@ void loop() {
 				}
 			}
 		}
-	} else {
-		flickerPattern(random(0, 2), random(0, 2));
-		blinkMin = 0;
+	} else if (possibility > 20) { // the classic coca-cola sign pattern, happen 50% of the time
+        runClassic();
+
+        blinkMax = 3;
+	} else { // tracer, happens 20% of the time
+		runTracer();
+
+		blinkMax = 1;
 	}
 
    	blinkLetters(random(blinkMin, blinkMax));
