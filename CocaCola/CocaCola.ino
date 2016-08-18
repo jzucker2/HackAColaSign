@@ -239,13 +239,26 @@ void blinkBackground(int times) {
 	delay(normal);
 }
 
-void flickerPattern() {
+void flickerPattern(int flickerLetters, int flickerBackground) {
 	allOn();
 
+	int max = 0;
+	if (flickerLetters == 1) {
+		max += 12;
+	}
+	if (flickerBackground == 1) {
+		max += 8;
+	}
 	int pin = 0;
-	for (int i = 0; i < random(5, 20); i++) {
-		if (i % random(1, 5) == 0) {
-			pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
+	for (int i = 0; i < random(5, max); i++) {
+		if (i % random(1, max / 3) == 0) {
+			if (flickerLetters == 1 && flickerBackground == 1) {
+				pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
+			} else if (flickerBackground == 1) {
+				pin = background[random(0, sizeof(background))];
+			} else {
+				pin = letters[random(0, sizeof(letters))]
+			}
 		}
 		
 		digitalWrite(pin, PATTERN_OFF);
@@ -339,7 +352,7 @@ void loop() {
 			}
 		}
 	} else {
-		flickerPattern();
+		flickerPattern(random(0, 2), random(0, 2));
 		blinkMin = 0;
 	}
 
