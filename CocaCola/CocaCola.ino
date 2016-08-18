@@ -239,6 +239,78 @@ void blinkBackground(int times) {
 	delay(normal);
 }
 
+void blinkAllOnRandom() {
+	int state[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+
+	for (int i = 0; i < sizeof(state); i++) {
+		state[i] = 0;
+	}
+
+	int on = 0;
+
+	while (on != sizeof(state)) {
+		int value = random(0, sizeof(state));
+		if (state[value]) {
+			continue;
+		}
+
+		state[value] = 1;
+		int pin = Lights[value];
+		digitalWrite(pin, PATTERN_ON);
+		on++;
+
+		delay(minimal);
+	}
+}
+
+void blinkBackgroundOnRandom() {
+	int state[] = [ 0, 0, 0, 0, 0, 0 ];
+
+	for (int i = 0; i < sizeof(state); i++) {
+		state[i] = 0;
+	}
+
+	int on = 0;
+
+	while (on != sizeof(state)) {
+		int value = random(0, sizeof(state));
+		if (state[value]) {
+			continue;
+		}
+
+		state[value] = 1;
+		int pin = background[value];
+		digitalWrite(pin, PATTERN_ON);
+		on++;
+
+		delay(minimal);
+	}
+}
+
+void blinkLettersOnRandom() {
+	int state[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+
+	for (int i = 0; i < sizeof(state); i++) {
+		state[i] = 0;
+	}
+
+	int on = 0;
+
+	while (on != sizeof(state)) {
+		int value = random(0, sizeof(state));
+		if (state[value]) {
+			continue;
+		}
+
+		state[value] = 1;
+		int pin = letters[value];
+		digitalWrite(pin, PATTERN_ON);
+		on++;
+
+		delay(minimal);
+	}
+}
+
 void flickerPattern(int flickerLetters, int flickerBackground) {
 	allOn();
 
