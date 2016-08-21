@@ -164,7 +164,7 @@ var runableCode = arduinoCodeParts[1]
 const cstructReplaceRegexp = new RegExp(/\[\]\s*=\s*\{/g);
 
 if (cstructReplaceRegexp.test(runableCode)) {
-	runableCode = runableCode.replace(cstructReplaceRegexp, ' = [ /*yaaaaaa*/') // turn any C array[] = { x, y } into var array = [js, arrays]
+	runableCode = runableCode.replace(cstructReplaceRegexp, ' = [') // turn any C array[] = { x, y } into var array = [js, arrays]
 		.replace(/\};/g, '];');
 }
 
