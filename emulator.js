@@ -159,12 +159,19 @@ const arduinoCode = fs.readFileSync(pathToArduinoCode).toString();
 
 const arduinoCodeParts = arduinoCode.split("// )'(");
 
-const runableCode = arduinoCodeParts[1]
-    .replace(/\[\]\s?=\s?/g, ' = ') // turn any C array[]'s into [regular, arrays]
-    .replace(/int(\s*_*[A-Za-z]+_*\d*\s*)=/g, 'var$1=') // Replace any instance of "int variable = n"
-    .replace(/int /g, '') // Remove "int" from any instance of "int variable"
-    .replace(/void loop\(\) {/, 'while (true) {') // Turn our main method into a while loop
-    .replace(/void (\s*_*[A-Za-z]+_*\d*\s*)/g, ' var $1 = function'); // Replace any "void function" with a javascript function definition
+var runableCode = arduinoCodeParts[1]
+
+const cstructReplaceRegexp = new RegExp(/\[\]\s*=\s*\{/g);
+
+if (cstructReplaceRegexp.test(runableCode)) {
+	runableCode = runableCode.replace(cstructReplaceRegexp, ' = [ /*yaaaaaa*/') // turn any C array[] = { x, y } into var array = [js, arrays]
+		.replace(/\};/g, '];');
+}
+
+runableCode = runableCode.replace(/int(\s*_*[A-Za-z]+_*\d*\s*)=/g, 'var$1=') // Replace any instance of "int variable = n"
+	.replace(/int /g, '') // Remove "int" from any instance of "int variable"
+	.replace(/void loop\(\) {/, 'while (true) {') // Turn our main method into a while loop
+	.replace(/void (\s*_*[A-Za-z]+_*\d*\s*)/g, ' var $1 = function'); // Replace any "void function" with a javascript functiondefinition
 
 if (runableCode.indexOf(")\n") != -1) {
         throw new Error(`${pathToArduinoCode}: )\\n found without a semicolon`);
