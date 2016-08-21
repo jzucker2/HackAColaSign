@@ -18,9 +18,6 @@
 - Test your thing: `node emulator -t -f YourThing/YourThing.ino`
 - Test all the things: `for i in `find */*.ino` ; do node emulator -t -f $i ; done`
 
-## For further [documentation](./CocaCola/Constants.h)
-- See [CocaCola/Constants.h](./CocaCola/Constants.h)
-
 ## Working with the sign
 ### Environment:
 #### When code to the sign with the Arduino IDE, you need to set the following two things in the Tools menu:
@@ -30,3 +27,6 @@
 Otherwise the IDE will compile for the wrong CPU or something, and things generally won't work.
 
 But once it's configured, and your computer is connected via USB, hit the Upload button (circle with a ➡ (right arrow, if unicode is failing)) and the sign will start running your code.
+
+## For further [documentation](./CocaCola/Constants.h)
+- See [CocaCola/Constants.h](./CocaCola/Constants.h)
