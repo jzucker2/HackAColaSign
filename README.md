@@ -20,3 +20,13 @@
 
 ## For further [documentation](./CocaCola/Constants.h)
 - See [CocaCola/Constants.h](./CocaCola/Constants.h)
+
+## Working with the sign
+### Environment:
+#### When code to the sign with the Arduino IDE, you need to set the following two things in the Tools menu:
+- Board: Arduino/Genuino: Mega or Mega 2560
+- Port: /dev/tty.usbmodem
+
+Otherwise the IDE will compile for the wrong CPU or something, and things generally won't work.
+
+But once it's configured, and your computer is connected via USB, hit the Upload button (circle with a ➡ (right arrow, if unicode is failing)) and the sign will start running your code.
