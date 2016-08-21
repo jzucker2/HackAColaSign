@@ -16,6 +16,7 @@ void setup() {
 // roughly: anything that calls `digitalWrite();` is a scene
 
 void lettersAllOn() {
+    delay(none);
     log('lettersAllOn - START');
     for (int i = 0; i < sizeof(letters); i++) {
         log('lettersAllOn ', i);
@@ -25,6 +26,7 @@ void lettersAllOn() {
 }
 
 void lettersAllOff() {
+    delay(none);
     log('lettersAllOff - START');
     for (int i = 0; i < sizeof(letters); i++) {
         log('lettersAllOff i: ', i);
@@ -34,6 +36,7 @@ void lettersAllOff() {
 }
 
 void backgroundAllOn() {
+    delay(none);
     log('backgroundAllOn - START');
     for (int i = 0; i < sizeof(background); i++) {
         log('backgroundAllOn ', i);
@@ -43,6 +46,7 @@ void backgroundAllOn() {
 }
 
 void backgroundAllOff() {
+    delay(none);
     log('backgroundAllOff - START');
     for (int i = 0; i < sizeof(background); i++) {
         log('backgroundAllOff i: ', i);
@@ -52,6 +56,7 @@ void backgroundAllOff() {
 }
 
 void lettersOnLeftToRight() {
+    delay(none);
     log('lettersOnLeftToRight - START');
     for (int i = 0; i < sizeof(letters); i++) {
         log('lettersOnLeftToRight i: ', i);
@@ -61,6 +66,7 @@ void lettersOnLeftToRight() {
 }
 
 void backgroundOnLeftToRight() {
+    delay(none);
     // turn the background on from left to right
     log('backgroundOnLeftToRight - START');
     for (int i = 0; i < sizeof(background); i++) {
@@ -71,6 +77,7 @@ void backgroundOnLeftToRight() {
 }
 
 void backgroundOffRightToLeft() {
+    delay(none);
     log('backgroundOffRightToLeft - START');
     for (int i = sizeof(background) - 1; i >= 0; i--) {
         digitalWrite(background[i], PATTERN_OFF);
@@ -79,6 +86,7 @@ void backgroundOffRightToLeft() {
 }
 
 void backgroundOnOutsideIn() {
+    delay(none);
     log('backgroundOnOutsideIn - START');
     for (int i = 0, j = sizeof(background) - 1; i < (sizeof(background) / 2); i++, j--) {
         log('backgroundOnOutsideIn i: ', i);
@@ -91,6 +99,7 @@ void backgroundOnOutsideIn() {
 }
 
 void backgroundOffInsideOut() {
+    delay(none);
     log('backgroundOffInsideOut - START');
     for (int i = (sizeof(background) / 2) - 1, j = i + 1; i >= 0; i--, j++) {
         log('backgroundOffInsideOut i: ', i);
@@ -103,6 +112,7 @@ void backgroundOffInsideOut() {
 }
 
 void backgroundOffOutsideIn() {
+    delay(none);
     log('backgroundOffOutsideIn - START');
     for (int i = 0, j = sizeof(background) - 1; i < (sizeof(background) / 2); i++, j--) {
         log('backgroundOffOutsideIn i: ', i);
@@ -115,6 +125,7 @@ void backgroundOffOutsideIn() {
 }
 
 void backgroundOnInsideOut() {
+    delay(none);
     log('backgroundOnInsideOut - START');
     for (int i = (sizeof(background) / 2) - 1, j = i + 1; i >= 0; i--, j++) {
         log('backgroundOnInsideOut i: ', i);
@@ -127,6 +138,7 @@ void backgroundOnInsideOut() {
 }
 
 void allOff() {
+    delay(none);
     for (int i = 0; i < sizeof(Lights); i++) {
         digitalWrite(Lights[i], PATTERN_OFF);
         delay(none);
@@ -134,6 +146,7 @@ void allOff() {
 }
 
 void allOn() {
+    delay(none);
     for (int i = 0; i < sizeof(Lights); i++) {
         digitalWrite(Lights[i], PATTERN_ON);
         delay(none);
@@ -151,70 +164,74 @@ void classicBackground() {
 }
 
 void outsideInOnInsideOutOffBackground(int times, int endingWithLightsOn) {
-	for (int count = 0; count < times; count++) {
+  for (int count = 0; count < times; count++) {
       backgroundOnOutsideIn();
       delay(ish);
-		if (count + 1 != times || !endingWithLightsOn) {
-			backgroundOffInsideOut();
-	        delay(ish);
-		}
-	}
+    if (count + 1 != times || !endingWithLightsOn) {
+      backgroundOffInsideOut();
+          delay(ish);
+    }
+  }
 }
 
 void insideOutOnOutsideInOffBackground(int times, int endingWithLightsOn) {
-	for (int count = 0; count < times; count++) {
-	    backgroundOnInsideOut();
-	    delay(ish);
- 		 if (count + 1 != times || !endingWithLightsOn) {
-			 backgroundOffOutsideIn();
-		 }
-	 }
+  for (int count = 0; count < times; count++) {
+      backgroundOnInsideOut();
+      delay(ish);
+     if (count + 1 != times || !endingWithLightsOn) {
+       backgroundOffOutsideIn();
+     }
+   }
 }
 
 void insideOutOutsideInBackground() {
-	for (int i = 0; random(3, 8); i++) {
-		if (random(0, 2) == 0) {
-			outsideInOnInsideOutOffBackground(random(1, 4), true);
-			delay(minimal);
+  for (int i = 0; random(3, 8); i++) {
+    if (random(0, 2) == 0) {
+      outsideInOnInsideOutOffBackground(random(1, 4), true);
+      delay(minimal);
 
-			insideOutOnOutsideInOffBackground(random(1, 4), false);
-			delay(minimal);
-		} else {
-			insideOutOnOutsideInOffBackground(random(1, 4), true);
-			delay(minimal);
+      insideOutOnOutsideInOffBackground(random(1, 4), false);
+      delay(minimal);
+    } else {
+      insideOutOnOutsideInOffBackground(random(1, 4), true);
+      delay(minimal);
 
-			outsideInOnInsideOutOffBackground(random(1, 4), false);
-			delay(minimal);
-		}
-	}
+      outsideInOnInsideOutOffBackground(random(1, 4), false);
+      delay(minimal);
+    }
+  }
 }
 
 void racingOnLeftToRightBackground() {
-	for (int x = 0; x < sizeof(background); x++) {
-		for (int y = 0; y < sizeof(background) - x - 1; y++) {
-			digitalWrite(background[y], PATTERN_ON);
-			delay(minimal);
-			digitalWrite(background[y], PATTERN_OFF);
-		}
+  for (int x = 0; x < sizeof(background); x++) {
+    for (int y = 0; y < sizeof(background) - x - 1; y++) {
+      digitalWrite(background[y], PATTERN_ON);
+      delay(minimal);
+      digitalWrite(background[y], PATTERN_OFF);
+      delay(none);
+    }
 
-		digitalWrite(background[sizeof(background) - x - 1], PATTERN_ON);
-		delay(minimal);
-	}
+    digitalWrite(background[sizeof(background) - x - 1], PATTERN_ON);
+    delay(minimal);
+  }
 }
 
 void blinkBackgroundPairLeftToRight() {
-	int half = sizeof(background) / 2;
+  int half = sizeof(background) / 2;
 
-	for (int count = 0; count < random(5, 10); count++) {
-		for (int x = 0; x < half; x++) {
-			digitalWrite(background[x], PATTERN_ON);
-			digitalWrite(background[x + half], PATTERN_ON);
-			delay(minimal);
+  for (int count = 0; count < random(5, 10); count++) {
+    for (int x = 0; x < half; x++) {
+      digitalWrite(background[x], PATTERN_ON);
+      delay(none);
+      digitalWrite(background[x + half], PATTERN_ON);
+      delay(minimal);
 
-			digitalWrite(background[x], PATTERN_OFF);
-			digitalWrite(background[x + half], PATTERN_OFF);
-		}
-	}
+      digitalWrite(background[x], PATTERN_OFF);
+      delay(none);
+      digitalWrite(background[x + half], PATTERN_OFF);
+      delay(none);
+    }
+  }
 }
 
 void blinkLetters(int times) {
@@ -228,116 +245,117 @@ void blinkLetters(int times) {
 }
 
 void blinkBackground(int times) {
-	for (int x = 0; x < times; x++) {
-	    backgroundAllOff();
-	    delay(blinky);
+  for (int x = 0; x < times; x++) {
+      backgroundAllOff();
+      delay(blinky);
 
-	    backgroundAllOn();
-	    delay(blinky);
-	}
+      backgroundAllOn();
+      delay(blinky);
+  }
 
-	delay(normal);
+  delay(normal);
 }
 
 void blinkAllOnRandom() {
-	int state[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+  int state[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	for (int i = 0; i < sizeof(state); i++) {
-		state[i] = 0;
-	}
+  for (int i = 0; i < sizeof(state); i++) {
+    state[i] = 0;
+  }
 
-	int on = 0;
+  int on = 0;
 
-	while (on != sizeof(state)) {
-		int value = random(0, sizeof(state));
-		if (state[value]) {
-			continue;
-		}
+  while (on != sizeof(state)) {
+    int value = random(0, sizeof(state));
+    if (state[value]) {
+      continue;
+    }
 
-		state[value] = 1;
-		int pin = Lights[value];
-		digitalWrite(pin, PATTERN_ON);
-		on++;
+    state[value] = 1;
+    int pin = Lights[value];
+    digitalWrite(pin, PATTERN_ON);
+    on++;
 
-		delay(minimal);
-	}
+    delay(minimal);
+  }
 }
 
 void blinkBackgroundOnRandom() {
-	int state[] = [ 0, 0, 0, 0, 0, 0 ];
+  int state[] = { 0, 0, 0, 0, 0, 0 };
 
-	for (int i = 0; i < sizeof(state); i++) {
-		state[i] = 0;
-	}
+  for (int i = 0; i < sizeof(state); i++) {
+    state[i] = 0;
+  }
 
-	int on = 0;
+  int on = 0;
 
-	while (on != sizeof(state)) {
-		int value = random(0, sizeof(state));
-		if (state[value]) {
-			continue;
-		}
+  while (on != sizeof(state)) {
+    int value = random(0, sizeof(state));
+    if (state[value]) {
+      continue;
+    }
 
-		state[value] = 1;
-		int pin = background[value];
-		digitalWrite(pin, PATTERN_ON);
-		on++;
+    state[value] = 1;
+    int pin = background[value];
+    digitalWrite(pin, PATTERN_ON);
+    on++;
 
-		delay(minimal);
-	}
+    delay(minimal);
+  }
 }
 
 void blinkLettersOnRandom() {
-	int state[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+	// from: int state[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];   
+  int state[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	for (int i = 0; i < sizeof(state); i++) {
-		state[i] = 0;
-	}
+  for (int i = 0; i < sizeof(state); i++) {
+    state[i] = 0;
+  }
 
-	int on = 0;
+  int on = 0;
 
-	while (on != sizeof(state)) {
-		int value = random(0, sizeof(state));
-		if (state[value]) {
-			continue;
-		}
+  while (on != sizeof(state)) {
+    int value = random(0, sizeof(state));
+    if (state[value]) {
+      continue;
+    }
 
-		state[value] = 1;
-		int pin = letters[value];
-		digitalWrite(pin, PATTERN_ON);
-		on++;
+    state[value] = 1;
+    int pin = letters[value];
+    digitalWrite(pin, PATTERN_ON);
+    on++;
 
-		delay(minimal);
-	}
+    delay(minimal);
+  }
 }
 
 void flickerPattern(int flickerLetters, int flickerBackground) {
-	allOn();
+  allOn();
 
-	int max = 0;
-	if (flickerLetters == 1) {
-		max += 12;
-	}
-	if (flickerBackground == 1) {
-		max += 8;
-	}
-	int pin = 0;
-	for (int i = 0; i < random(5, max); i++) {
-		if (i % random(1, max / 3) == 0) {
-			if (flickerLetters == 1 && flickerBackground == 1) {
-				pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
-			} else if (flickerBackground == 1) {
-				pin = background[random(0, sizeof(background))];
-			} else {
-				pin = letters[random(0, sizeof(letters))]
-			}
-		}
-		
-		digitalWrite(pin, PATTERN_OFF);
-		delay(random(minimal / 10, minimal / 2));
-		digitalWrite(pin, PATTERN_ON);
-		delay(ish);
-	}
+  int max = 0;
+  if (flickerLetters == 1) {
+    max += 12;
+  }
+  if (flickerBackground == 1) {
+    max += 8;
+  }
+  int pin = 0;
+  for (int i = 0; i < random(5, max); i++) {
+    if (i % random(1, max / 3) == 0) {
+      if (flickerLetters == 1 && flickerBackground == 1) {
+        pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
+      } else if (flickerBackground == 1) {
+        pin = background[random(0, sizeof(background))];
+      } else {
+        pin = letters[random(0, sizeof(letters))];
+      }
+    }
+    
+    digitalWrite(pin, PATTERN_OFF);
+    delay(random(minimal / 2, minimal));
+    digitalWrite(pin, PATTERN_ON);
+    delay(ish);
+  }
 }
 
 // Randomness
@@ -350,6 +368,7 @@ void runClassic() {
 void runTracer() {
     for (int i = 0; i < sizeof(background); i++) {
       digitalWrite(background[i], PATTERN_ON);
+        delay(none);
     }
     for (int i = 0; i < sizeof(letters); i++) {
       digitalWrite(Lights[i], PATTERN_ON);
@@ -361,10 +380,12 @@ void runTracer() {
 
       for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(Lights[i], PATTERN_ON);
+        delay(none);
       }
       delay(250);
       for (int i = 0; i < sizeof(letters); i++) {
         digitalWrite(Lights[i], PATTERN_OFF);
+        delay(none);
       }
       delay(250);
 
@@ -373,23 +394,23 @@ void runTracer() {
 }
 
 void runLetterPattern() {
-	// if new patterns are added, add a new case statement, and bump up the max random value by one
-	switch (random(0, 3)) {
-	case 0: { lettersOnLeftToRight(); break; }
-	case 1: { blinkLetters(random(5, 10)); break; }
-	case 2: { blinkLettersOnRandom(); break; }
-	default: { break; }
-	}
+  // if new patterns are added, add a new case statement, and bump up the max random value by one
+  switch (random(0, 3)) {
+  case 0: { lettersOnLeftToRight(); break; }
+  case 1: { blinkLetters(random(5, 10)); break; }
+  case 2: { blinkLettersOnRandom(); break; }
+  default: { break; }
+  }
 }
 
 void runBackgroundPattern() {
-	switch(random(0, 5)) {
-	case 0: { classicBackground(); break; }
-	case 1: { insideOutOutsideInBackground(); break; }
-	case 2: { racingOnLeftToRightBackground(); break; }
-	case 3: { blinkBackground(random(5, 10)); backgroundAllOn(); break; }
-	case 4: { blinkBackgroundOnRandom(); break; }
-	}
+  switch(random(0, 5)) {
+  case 0: { classicBackground(); break; }
+  case 1: { insideOutOutsideInBackground(); break; }
+  case 2: { racingOnLeftToRightBackground(); break; }
+  case 3: { blinkBackground(random(5, 10)); backgroundAllOn(); break; }
+  case 4: { blinkBackgroundOnRandom(); break; }
+  }
 }
 
 // Arduino loop
@@ -397,51 +418,54 @@ void runBackgroundPattern() {
 void loop() {
     allOff();
 
-	int blinkMin = 1;
-	int blinkMax = 0;
-	int possibility = random(0, 100);
 
-	if (possibility > 95) { // rare things, only happen 5% of the time
-		switch(random(0, 2)) {
-		case 0:
-			flickerPattern(random(0, 2), random(0, 2));
-			blinkMin = 0;
-			break;
-		case 1:
-			blinkAllOnRandom();
-			blinkMax = 3
-			break;
-		}
-	} else if (possibility > 70) { // less rare things, happen 25% of the time
-		if (random(0, 200) == 0) {
-			runBackgroundPattern();
-			runLetterPattern();
-		} else {
-			blinkMax = 5;
 
-			runLetterPattern();
+    runClassic();
+  int blinkMin = 1;
+  int blinkMax = 0;
+  int possibility = random(0, 100);
 
-			for (int i = 0; i < random(1, 5); i++) {
-				runBackgroundPattern();
+  if (possibility > 95) { // rare things, only happen 5% of the time
+    switch(random(0, 2)) {
+    case 0:
+      flickerPattern(random(0, 2), random(0, 2));
+      blinkMin = 0;
+      break;
+    case 1:
+      blinkAllOnRandom();
+      blinkMax = 3;
+      break;
+    }
+  } else if (possibility > 70) { // less rare things, happen 25% of the time
+    if (random(0, 200) == 0) {
+      runBackgroundPattern();
+      runLetterPattern();
+    } else {
+      blinkMax = 5;
 
-				if (random(0, 10) == 0) {
-				   	blinkLetters(random(1, blinkMax));
-				}
-			}
-		}
-	} else if (possibility > 20) { // the classic coca-cola sign pattern, happen 50% of the time
+      runLetterPattern();
+
+      for (int i = 0; i < random(1, 5); i++) {
+        runBackgroundPattern();
+
+        if (random(0, 10) == 0) {
+            blinkLetters(random(1, blinkMax));
+        }
+      }
+    }
+  } else if (possibility > 20) { // the classic coca-cola sign pattern, happen 50% of the time
         runClassic();
 
         blinkMax = 3;
-	} else { // tracer, happens 20% of the time
-		runTracer();
+  } else { // tracer, happens 20% of the time
+    runTracer();
 
-		blinkMax = 1;
-	}
+    blinkMax = 1;
+  }
 
-   	blinkLetters(random(blinkMin, blinkMax));
+    blinkLetters(random(blinkMin, blinkMax));
 
-   	lettersAllOff();
+    lettersAllOff();
 
     delay(ish);
 }
