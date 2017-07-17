@@ -332,7 +332,7 @@ void _blinkBackgroundPairLeftToRight(int repeatCount) {
 }
 
 void blinkBackgroundPairLeftToRight() {
-    blinkBackgroundPairLeftToRight(random(5, 10));
+    _blinkBackgroundPairLeftToRight(random(5, 10));
 }
 
 void blinkLetters(int times) {
@@ -430,8 +430,8 @@ void blinkBackground(int times) {
 //    }
 //}
 
-void _flickerPattern(int flickerLetters, int flickerBackground, int repeatCount) {
-        allOn();
+void flickerPattern(int flickerLetters, int flickerBackground, int repeatCount) {
+    allOn();
 
     int max = 0;
     if (flickerLetters == 1) {
@@ -442,7 +442,7 @@ void _flickerPattern(int flickerLetters, int flickerBackground, int repeatCount)
     }
     int pin = 0;
 
-    if (i % random(1, max / 3) == 0) {
+    if (repeatCount % random(1, max / 3) == 0) {
         if (flickerLetters == 1 && flickerBackground == 1) {
             pin = random(0, 2) == 0 ? letters[random(0, sizeof(letters))] : background[random(0, sizeof(background))];
         } else if (flickerBackground == 1) {
@@ -458,7 +458,7 @@ void _flickerPattern(int flickerLetters, int flickerBackground, int repeatCount)
     delay(ish);
 
     if (repeatCount > 0) {
-        _flickerPattern(flickerLetters, flickerBackground, repeatCount - 1);
+        flickerPattern(flickerLetters, flickerBackground, repeatCount - 1);
     }
 }
 
@@ -559,7 +559,7 @@ void runLetterPattern() {
     switch (random(0, 2)) {
     case 0: { lettersOnLeftToRight(); break; }
     case 1: { blinkLetters(random(5, 10)); break; }
-    // case 2: {  blinkLettersOnRandom(); break; }
+//    case 2: {  blinkLettersOnRandom(); break; }
     default: { break; }
     }
 }
@@ -584,16 +584,16 @@ void loop() {
     int possibility = random(0, 100);
 
     if (possibility > 95) { // rare things, only happen 5% of the time
-        // switch (random(0, 2)) {
-        // case 0:
-            flickerPattern(random(0, 2), random(0, 2));
+//        switch (random(0, 2)) {
+//        case 0:
+            flickerPattern(random(0, 2), random(0, 2), random(3, 5));
             blinkMin = 0;
-            // break;
-        // case 1:
-            // blinkAllOnRandom();
-            // blinkMax = 3;
-            // break;
-        // }
+//            break;
+//        case 1:
+//            blinkAllOnRandom();
+//            blinkMax = 3;
+//            break;
+//        }
     } else if (possibility > 70) { // less rare things, happen 25% of the time
         if (random(0, 200) == 0) {
             runBackgroundPattern();
